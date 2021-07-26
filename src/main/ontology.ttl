@@ -1,0 +1,235 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix mms: <https://mms.openmbee.org/rdf/ontology/> .
+@prefix mms-graph: <https://mms.openmbee.org/rdf/graph/> .
+@prefix mms-object: <https://mms.openmbee.org/rdf/object/> .
+@prefix : <https://mms.openmbee.org/rdf/ontology/> .
+@base <https://mms.openmbee.org/rdf/ontology/> .
+
+mms:Ontology rdf:type owl:Ontology .
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  https://mms.openmbee.org/rdf/ontology/commitMessage
+mms:commitMessage rdf:type rdfs:Datatype ;
+                  owl:equivalentClass rdfs:Literal .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://mms.openmbee.org/rdf/ontology/author
+mms:author rdf:type owl:ObjectProperty ;
+           rdfs:domain mms:Commit ;
+           rdfs:range mms:User .
+
+
+###  https://mms.openmbee.org/rdf/ontology/commit
+mms:commit rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           rdf:type owl:FunctionalProperty ,
+                    owl:InverseFunctionalProperty ;
+           rdfs:domain mms:Ref ;
+           rdfs:range mms:Commit .
+
+
+###  https://mms.openmbee.org/rdf/ontology/data
+mms:data rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdf:type owl:FunctionalProperty ,
+                  owl:InverseFunctionalProperty ;
+         rdfs:domain mms:Commit ;
+         rdfs:range mms:Delta .
+
+
+###  https://mms.openmbee.org/rdf/ontology/graph
+mms:graph rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdf:type owl:FunctionalProperty ;
+          rdfs:domain mms:Snapshot ;
+          rdfs:range mms:Graph .
+
+
+###  https://mms.openmbee.org/rdf/ontology/materializes
+mms:materializes rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdf:type owl:FunctionalProperty ,
+                          owl:InverseFunctionalProperty ;
+                 rdfs:domain mms:Snapshot ;
+                 rdfs:range mms:Ref .
+
+
+###  https://mms.openmbee.org/rdf/ontology/org
+mms:org rdf:type owl:ObjectProperty ;
+        rdfs:subPropertyOf owl:topObjectProperty ;
+        rdf:type owl:FunctionalProperty ;
+        rdfs:domain mms:Project ;
+        rdfs:range mms:Organization .
+
+
+###  https://mms.openmbee.org/rdf/ontology/parent
+mms:parent rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           rdfs:domain mms:Commit ;
+           rdfs:range [ rdf:type owl:Class ;
+                        owl:unionOf ( mms:Commit
+                                      [ rdf:type owl:Class ;
+                                        owl:oneOf ( rdf:nil
+                                                  )
+                                      ]
+                                    )
+                      ] .
+
+
+###  https://mms.openmbee.org/rdf/ontology/project
+mms:project rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            rdfs:domain mms:Collection ;
+            rdfs:range mms:Project .
+
+
+###  https://mms.openmbee.org/rdf/ontology/type
+mms:type rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:domain mms:Ref ;
+         rdfs:range mms:RefType .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://purl.org/dc/terms/title
+<http://purl.org/dc/terms/title> rdf:type owl:DatatypeProperty .
+
+
+###  https://mms.openmbee.org/rdf/ontology/id
+mms:id rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  https://mms.openmbee.org/rdf/ontology/label
+mms:label rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf <http://purl.org/dc/terms/title> ;
+          rdfs:domain mms:LabeledThing ;
+          rdfs:range rdfs:Literal .
+
+
+###  https://mms.openmbee.org/rdf/ontology/message
+mms:message rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain mms:Commit ;
+            rdfs:range mms:commitMessage .
+
+
+###  https://mms.openmbee.org/rdf/ontology/name
+mms:name rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  https://mms.openmbee.org/rdf/ontology/submitted
+mms:submitted rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:range xsd:dateTime .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://mms.openmbee.org/rdf/ontology/Branch
+mms:Branch rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Collection
+mms:Collection rdf:type owl:Class ;
+               rdfs:subClassOf mms:LabeledThing .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Commit
+mms:Commit rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Delta
+mms:Delta rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Graph
+mms:Graph rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/LabeledThing
+mms:LabeledThing rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Organization
+mms:Organization rdf:type owl:Class ;
+                 rdfs:subClassOf mms:Collection .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Project
+mms:Project rdf:type owl:Class ;
+            rdfs:subClassOf mms:LabeledThing .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Ref
+mms:Ref rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/RefType
+mms:RefType rdf:type owl:Class ;
+            owl:equivalentClass [ rdf:type owl:Class ;
+                                  owl:oneOf ( mms:Branch
+                                              mms:Tag
+                                            )
+                                ] .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Snapshot
+mms:Snapshot rdf:type owl:Class .
+
+
+###  https://mms.openmbee.org/rdf/ontology/User
+mms:User rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#nil
+rdf:nil rdf:type owl:NamedIndividual .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Branch
+mms:Branch rdf:type owl:NamedIndividual .
+
+
+###  https://mms.openmbee.org/rdf/ontology/Tag
+mms:Tag rdf:type owl:NamedIndividual .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( mms:Branch
+                mms:Collection
+                mms:Commit
+                mms:Delta
+                mms:Graph
+                mms:Project
+                mms:Ref
+                mms:Snapshot
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
